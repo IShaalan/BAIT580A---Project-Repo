@@ -1,0 +1,52 @@
+
+cur.execute("""CREATE TABLE IF NOT EXISTS edx.country(
+               country_name text
+			  ,country_code text
+  
+               )""")
+conn.commit()
+
+
+cur.execute("""CREATE TABLE IF NOT EXISTS edx.human_capital(
+				country_code					text not null
+               ,year							SMALLINT not null
+               ,edu_pcnt_gdp					double precision
+               ,edu_pcnt_bud					double precision
+               ,edu_pcnt_ter_bud				double precision
+               ,edu_pcnt_gdp_pstudcapita_ter	double precision
+               ,edu_pcnt_scnd_bud				double precision
+               ,edu_pcnt_gdp_pstudcapita_scnd	double precision
+               ,edu_pcnt_prim_bud				double precision
+               ,edu_pcnt_gdp_pstudcapita_prim	double precision
+               ,hdi								double precision
+               ,gdp_US 							double precision
+               ,gdp_growth 						double precision
+				FORIEGN KEYS(country_code) References country(country_code)
+               )""")
+conn.commit()
+
+cur.execute("""CREATE TABLE IF NOT EXISTS edx.education_indicators(
+			country_code 			TEXT NOT NULL
+			,year 					SMALLINT NOT NULL
+			,qual_edsys 			double precision
+			,qual_mathsci_edsys 	double precision
+			,qual_ed 				double precision
+			,perc_grad_stem_tert 	double precision
+			,perc_grad_nonstem_tert double precision
+			,sch_enr_tert 			double precision
+			,sch_enr_sec `			double precision
+			,sch_enr_pri `			double precision
+	FOREIGN KEY (country_code) REFERENCES country(country_code)"""))
+cur.execute('commit')
+
+
+cur.execute("""CREATE TABLE IF NOT EXISTS edx.test_scores(
+				country_code 	TEXT NOT NULL,
+				year 			SMALLINT NOT NULL,
+				timss_4th 		SMALLINT,
+				timss_8th 		SMALLINT,
+				pisamath 		SMALLINT,
+				pisasci 		SMALLINT,
+				pisaread 		SMALLINT,
+				FOREIGN KEY (country_code) REFERENCES country(country_code)"""))
+cur.execute('commit')
